@@ -46,8 +46,8 @@ def _parse_stderr(proc):
 def _get_xmlsec_bin(_platform=None):
     if _platform is None:
         _platform = platform
-
-    xmlsec_bin = 'xmlsec1'
+    
+    xmlsec_bin = '/usr/bin/xmlsec1'
     if _platform.system() == 'Windows':
         xmlsec_bin = 'xmlsec.exe'
 
