@@ -2,6 +2,7 @@ from datetime import datetime
 import dateutil.parser
 import json
 import sys
+import random
 
 # Properly format a User received from Maestrano 
 # SAML IDP
@@ -80,7 +81,7 @@ class MnoSsoBaseUser(object, ):
     #  - setLocalUid
     def matchLocal(self):
         self.local_id = self.getLocalIdByUid()
-        if is_null(self.local_id):
+        if self.local_id is None:
             self.local_id = self.getLocalIdByEmail()
             if self.local_id:
                 self.setLocalUid()
@@ -102,7 +103,7 @@ class MnoSsoBaseUser(object, ):
     # If createLocalUser returns null then access
     # is refused to the user
     def createLocalUserOrDenyAccess(self):
-        if is_null(self.local_id):
+        if self.local_id is None:
             self.local_id = self.createLocalUser()
             if self.local_id:
                 self.setLocalUid()
@@ -157,7 +158,7 @@ class MnoSsoBaseUser(object, ):
         if self.setInSession():
             self.session['mno_uid'] = self.uid
             self.session['mno_session'] = self.sso_session
-            self.session['mno_session_recheck'] = self.sso_session_recheck.format(DateTime.ISO8601)
+            self.session['mno_session_recheck'] = self.sso_session_recheck.isoformat()
 
     # Generate a random password.
     # Convenient to set dummy passwords on users
@@ -168,6 +169,6 @@ class MnoSsoBaseUser(object, ):
         if 1:
             i = 0
             while (i < length):
-                randomString = ('%s%s' % (randomString, characters[rand(0, (strlen(characters) - 1))]))
+                randomString = ('%s%s' % (randomString, characters[random.randint(0, (len(characters) - 1))]))
                 i = (i + 1)
         return randomString

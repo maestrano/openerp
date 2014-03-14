@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import inspect, os, sys, traceback, cgi
+import werkzeug
 
 print "Context-Type: text/html\n\n"
 
@@ -27,6 +28,8 @@ try:
     # Get SAML POST data
     auth_data = cgi.FieldStorage().getvalue('SAMLResponse')
     
+    #print os.environ.__dict__
+    basereq = werkzeug.wrappers.Request(os.environ.__dict__)
     
     # Build SAML response
     settings = maestrano.getSettings().getSamlSettings()

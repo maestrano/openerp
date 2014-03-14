@@ -10,6 +10,9 @@ execfile(MAESTRANO_ROOT + '/app/init/base.py')
 #-----------------------------------------------
 # Require your app specific files here
 #-----------------------------------------------
+APP_DIR = os.path.abspath(MAESTRANO_ROOT + '/../')
+sys.path.append(APP_DIR)
+import openerp
 #define('MY_APP_DIR', realpath(MAESTRANO_ROOT . '/../'));
 #require MY_APP_DIR . '/include/some_class_file.php';
 #require MY_APP_DIR . '/config/some_database_config_file.php';
