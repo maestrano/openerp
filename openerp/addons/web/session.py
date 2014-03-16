@@ -9,6 +9,16 @@ import xmlrpclib
 
 import openerp
 
+import os, sys
+import inspect
+import traceback
+
+MAESTRANO_ROOT = os.path.abspath(inspect.getfile(inspect.currentframe()) + '/../../../../maestrano/')
+
+# Load context
+execfile(MAESTRANO_ROOT + '/app/init/base.py')
+from MaestranoService import MaestranoService
+
 _logger = logging.getLogger(__name__)
 
 #----------------------------------------------------------
@@ -122,11 +132,21 @@ class OpenERPSession(object):
         """
         Ensures this session is valid (logged into the openerp server)
         """
-        if self._uid and not force:
-            return
-        # TODO use authenticate instead of login
-        uid = self.proxy("common").login(self._db, self._login, self._password)
-        if not uid:
+        maestrano = MaestranoService.getInstance()
+        maestrano.setSession(self.context)
+        
+        if (self._uid and not force):
+            uid = self._uid
+        else:
+            uid = self.proxy("common").login(self._db, self._login, self._password)
+        
+        if uid:
+            # check maestrano session is still valid
+            if maestrano.getSsoSession().isValid():
+                return
+            else:
+                raise AuthenticationError("Authentication failure")
+        else:
             raise AuthenticationError("Authentication failure")
 
     def ensure_valid(self):

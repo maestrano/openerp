@@ -36,8 +36,6 @@ from openerp import SUPERUSER_ID
 from openerp.modules.registry import RegistryManager
 from openerp.addons.web.controllers.main import login_and_redirect, set_cookie_and_redirect
 
-#from .. import utils
-
 MAESTRANO_ROOT = os.path.abspath(inspect.getfile(inspect.currentframe()) + '/../../../../../maestrano/')
 
 # Load context
@@ -47,10 +45,7 @@ from onelogin.saml import Response
 from MaestranoService import MaestranoService
 from MnoSsoUser import MnoSsoUser
 
-#_logger = logging.getLogger(__name__)
-#oidutil.log = _logger.debug
 _logger = logging.getLogger(__name__)
-_logger.info('TAMERE')
 
 class Maestrano(openerp.addons.web.http.Controller):
     _cp_path = '/maestrano/auth/saml'
@@ -58,8 +53,17 @@ class Maestrano(openerp.addons.web.http.Controller):
     #_store = filestore.FileOpenIDStore(_storedir)
     
     @openerp.addons.web.http.httprequest
+    def logout(self, req, **kw):
+        # Get Maestrano instance and build redirect url
+        maestrano = MaestranoService.getInstance()
+    
+        # Redirect to Maestrano logout page
+        redirect = werkzeug.utils.redirect(maestrano.getSsoLogoutUrl())
+        
+        return redirect
+    
+    @openerp.addons.web.http.httprequest
     def index(self, req, **kw):
-        #print "Hello"
         # Get Maestrano instance and build redirect url
         maestrano = MaestranoService.getInstance()
         auth_request_url = AuthRequest.create(**(maestrano.getSettings().getSamlSettings()))
