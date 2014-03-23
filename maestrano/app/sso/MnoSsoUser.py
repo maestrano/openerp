@@ -5,7 +5,6 @@ from openerp import SUPERUSER_ID
 from openerp.modules.registry import RegistryManager
 from openerp.osv.fields import char
 import inspect
-from openerp.addons.web.http import WebRequest
 import werkzeug
 
 #
