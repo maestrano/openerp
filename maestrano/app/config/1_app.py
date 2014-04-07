@@ -1,6 +1,15 @@
 # Get full host (protocal + server host)
 #protocol = ('https://' if (('HTTPS' in os.environ['SERVER_PROTOCOL'])) else 'http://')
-full_host = 'http://localhost:8069'
+protocol = "http://"
+environment = 'dev'
+host = os.environ['HOSTNAME'].replace("mcube-", "")
+
+if environment == 'uat':
+    host = host + '.app.uat.maestrano.io'
+elif environment == 'production':
+    host = host + '.mcube.co'
+    
+full_host = protocol + host
 
 # Name of your application
 mno_settings.app_name = 'my-app'

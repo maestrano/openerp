@@ -1,9 +1,10 @@
-
+from MnoSsoSession import MnoSsoSession
 
 class MaestranoService(object):
     _settings = None
     _instance = None
     _after_sso_sign_in_path = '/'
+    _session = None
     
     # constructor
     #
@@ -28,13 +29,18 @@ class MaestranoService(object):
     def getSettings(self):
         return self._settings
     
+    # Set the maestrano sso session
+    def setSession(self, session):
+        self._session = session
+        return self._session
+    
     # Return the maestrano sso session
-    def getPhpSession(self):
-        return "session"
+    def getSession(self):
+        return self._session
 
     # Return the maestrano sso session
     def getSsoSession(self):
-        return MnoSsoSession(self._settings, self.getPhpSession())
+        return MnoSsoSession(self._settings, self.getSession())
 
     # Check if Maestrano SSO is enabled
     def isSsoEnabled(self):
