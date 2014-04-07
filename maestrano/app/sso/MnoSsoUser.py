@@ -65,19 +65,21 @@ class MnoSsoUser(MnoSsoBaseUser):
             self.session.context['mno_session_recheck'] = self.sso_session_recheck.isoformat()
     
     # Create a local user based on the sso user
+    # Only if access scope is private
     def createLocalUser(self):
-        with self.connection.cursor() as cr:
-            user_hash = self.buildLocalUser()
-            user_id = self.Users.create(cr, SUPERUSER_ID, user_hash)
+        if self.accessScope() == "private"
+            with self.connection.cursor() as cr:
+                user_hash = self.buildLocalUser()
+                user_id = self.Users.create(cr, SUPERUSER_ID, user_hash)
             
-            if user_id is not None:
-                # add groups
-                groups = self.getGroupIdsToAssign()
-                if groups:
-                    vals = {'groups_id': [(4, g) for g in groups]}
-                    ret = self.Users.write(cr, SUPERUSER_ID, [user_id], vals)
+                if user_id is not None:
+                    # add groups
+                    groups = self.getGroupIdsToAssign()
+                    if groups:
+                        vals = {'groups_id': [(4, g) for g in groups]}
+                        ret = self.Users.write(cr, SUPERUSER_ID, [user_id], vals)
 
-                return user_id
+                    return user_id
             
         return None
             
