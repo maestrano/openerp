@@ -142,7 +142,7 @@ class OpenERPSession(object):
         
         if uid:
             # check maestrano session is still valid
-            if maestrano.getSsoSession().isValid():
+            if not maestrano.isSsoEnabled() or maestrano.getSsoSession().isValid():
                 return
             else:
                 raise AuthenticationError("Authentication failure")
