@@ -66,7 +66,7 @@ class MnoSsoUser(MnoSsoBaseUser):
     # Create a local user based on the sso user
     # Only if access scope is private
     def createLocalUser(self):
-        if self.accessScope() == "private"
+        if self.accessScope() == "private":
             with self.connection.cursor() as cr:
                 user_hash = self.buildLocalUser()
                 user_id = self.Users.create(cr, SUPERUSER_ID, user_hash)
