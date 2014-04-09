@@ -2,7 +2,11 @@
 #protocol = ('https://' if (('HTTPS' in os.environ['SERVER_PROTOCOL'])) else 'http://')
 protocol = "http://"
 environment = 'dev'
-host = os.environ['HOSTNAME'].replace("mcube-", "")
+
+if environment == 'dev':
+    host = "localhost:8069"
+else:
+    host = os.environ['HOSTNAME'].replace("mcube-", "")
 
 if environment == 'uat':
     host = host + '.app.uat.maestrano.io'
