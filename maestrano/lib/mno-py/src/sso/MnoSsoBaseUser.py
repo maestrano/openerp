@@ -94,7 +94,7 @@ class MnoSsoBaseUser(object, ):
     # organization owning this app) or public
     # (no link whatsoever with this application)
     def accessScope(self):
-        if ((self.local_id or self.app_owner) or (count(self.organizations) > 0)):
+        if ((self.local_id or self.app_owner) or (len(self.organizations) > 0)):
             return 'private'
         return 'public'
 

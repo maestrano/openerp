@@ -104,7 +104,7 @@ class MnoSsoUser(MnoSsoBaseUser):
         if self.app_owner:
             role_ids = default_admin_roles
         else:
-            for organization in self.organizations:
+            for organization in self.organizations.itervalues():
                 if (organization['role'] == 'Admin' or organization['role'] == 'Super Admin'):
                     role_ids = default_admin_roles
                 else:
