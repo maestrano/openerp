@@ -134,7 +134,7 @@ function openerp_pos_models(instance, module){ //module is instance.point_of_sal
                     return self.fetch(
                         'pos.session', 
                         ['id', 'journal_ids','name','user_id','config_id','start_at','stop_at'],
-                        [['state', '=', 'opened'], ['user_id', '=', self.session.uid]]
+                        [['state', '=', 'opened']]
                     );
                 }).then(function(sessions){
                     self.set('pos_session', sessions[0]);
