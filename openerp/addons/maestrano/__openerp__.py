@@ -14,5 +14,4 @@ Allow users to login through Maestrano.
     'external_dependencies': {},
     'installable': True,
     'auto_install': True,
-    'js' : ["//cdn.maestrano.com/apps/mno_libs/mno-loader.js","static/src/js/mno-init.js"],
 }
